@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Symptom Checker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1>HealthCare Symptom Checker</h1>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero" id="home">
+                <div class="hero-content">
+                    <h2>Get Instant Health Insights</h2>
+                    <p>Describe your symptoms and receive personalized health recommendations powered by AI</p>
+                    <div class="hero-features">
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure & Private</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <span>24/7 Available</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-brain"></i>
+                            <span>AI-Powered</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Symptom Checker Form -->
+            <section class="symptom-checker" id="checker">
+                <div class="checker-container">
+                    <h3>Describe Your Symptoms</h3>
+                    <p class="disclaimer">
+                        <i class="fas fa-info-circle"></i>
+                        This tool is for informational purposes only and should not replace professional medical advice.
+                    </p>
+                    
+                    <form id="symptomForm" class="symptom-form">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" min="1" max="120" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="symptoms">Describe your symptoms in detail</label>
+                            <textarea 
+                                id="symptoms" 
+                                name="symptoms" 
+                                rows="4" 
+                                placeholder="e.g., I have been experiencing headache, fever, and fatigue for the past 2 days..."
+                                required
+                            ></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="duration">Duration of symptoms</label>
+                            <select id="duration" name="duration" required>
+                                <option value="">Select duration</option>
+                                <option value="less_than_24h">Less than 24 hours</option>
+                                <option value="1_3_days">1-3 days</option>
+                                <option value="4_7_days">4-7 days</option>
+                                <option value="1_2_weeks">1-2 weeks</option>
+                                <option value="more_than_2_weeks">More than 2 weeks</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="severity">Severity level</label>
+                            <div class="severity-options">
+                                <label class="severity-option">
+                                    <input type="radio" name="severity" value="mild" required>
+                                    <span class="severity-label">Mild</span>
+                                </label>
+                                <label class="severity-option">
+                                    <input type="radio" name="severity" value="moderate" required>
+                                    <span class="severity-label">Moderate</span>
+                                </label>
+                                <label class="severity-option">
+                                    <input type="radio" name="severity" value="severe" required>
+                                    <span class="severity-label">Severe</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-search"></i>
+                            Analyze Symptoms
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results" id="results" style="display: none;">
+                <div class="results-container">
+                    <h3>Analysis Results</h3>
+                    <div class="results-content">
+                        <div class="result-summary">
+                            <div class="summary-item">
+                                <i class="fas fa-thermometer-half"></i>
+                                <span id="summaryText">Analyzing symptoms...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="result-details">
+                            <div class="detail-section">
+                                <h4>Possible Conditions</h4>
+                                <ul id="conditionsList"></ul>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h4>Recommended Actions</h4>
+                                <ul id="actionsList"></ul>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h4>When to Seek Medical Help</h4>
+                                <ul id="emergencyList"></ul>
+                            </div>
+                        </div>
+                        
+                        <div class="result-actions">
+                            <button class="action-btn primary" onclick="saveResults()">
+                                <i class="fas fa-save"></i>
+                                Save Results
+                            </button>
+                            <button class="action-btn secondary" onclick="resetForm()">
+                                <i class="fas fa-redo"></i>
+                                Check New Symptoms
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about" id="about">
+                <div class="about-container">
+                    <h3>About Our Symptom Checker</h3>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <p>Our AI-powered symptom checker analyzes your symptoms using advanced machine learning algorithms and medical databases to provide personalized health insights.</p>
+                            <p>While this tool can help identify potential conditions and provide general guidance, it's important to consult with healthcare professionals for accurate diagnosis and treatment.</p>
+                        </div>
+                        <div class="about-features">
+                            <div class="about-feature">
+                                <i class="fas fa-database"></i>
+                                <h4>Medical Database</h4>
+                                <p>Powered by comprehensive medical knowledge</p>
+                            </div>
+                            <div class="about-feature">
+                                <i class="fas fa-lock"></i>
+                                <h4>Privacy First</h4>
+                                <p>Your health information stays private</p>
+                            </div>
+                            <div class="about-feature">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h4>Mobile Friendly</h4>
+                                <p>Access from any device, anywhere</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>HealthCare Symptom Checker</h4>
+                    <p>Empowering individuals with AI-driven health insights</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Important Notice</h4>
+                    <p>This tool is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>For support: support@healthcare-checker.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 HealthCare Symptom Checker. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Analyzing your symptoms...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</body>
+</html>
